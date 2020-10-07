@@ -1,5 +1,16 @@
 package android.example.com.squawker;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.example.com.squawker.following.FollowingPreferenceActivity;
+import android.example.com.squawker.provider.SquawkContract;
+import android.example.com.squawker.provider.SquawkProvider;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,16 +22,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.database.Cursor;
-import android.example.com.squawker.following.FollowingPreferenceActivity;
-import android.example.com.squawker.provider.SquawkContract;
-import android.example.com.squawker.provider.SquawkProvider;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -71,6 +73,12 @@ public class MainActivity extends AppCompatActivity
 
         // Start the loader
         getSupportLoaderManager().initLoader(LOADER_ID_MESSAGES, null, this);
+
+
+        // Get token from the ID Service you created and show it in a log
+        String token = FirebaseInstanceId.getInstance().getToken();
+        String msg = getString(R.string.message_token_format, token);
+        Log.d(LOG_TAG, msg);
     }
 
     @Override
